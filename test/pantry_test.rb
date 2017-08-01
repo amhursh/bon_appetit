@@ -119,10 +119,10 @@ class PantryTest < Minitest::Test
     r1.add_ingredient("Cheese", 20)
     r1.add_ingredient("Flour", 20)
 
-    assert pantry.does_stock_include_necessary_ingredients?(r1)
+    assert pantry.necessary_ingredients?(r1)
   end
 
-  def test_necessary_ingredient_chack_returns_false_when_one_or_more_dont_exist
+  def test_necessary_ingredient_check_returns_false_when_one_or_more_dont_exist
     pantry = Pantry.new
     pantry.restock("Cheese", 10)
     pantry.restock("Flour", 20)
@@ -136,12 +136,45 @@ class PantryTest < Minitest::Test
     r2.add_ingredient("Ciggie butts", 20)
     r2.add_ingredient("Needles", 20)
 
-    refute pantry.does_stock_include_necessary_ingredients?(r1)
-    refute pantry.does_stock_include_necessary_ingredients?(r2)
+    refute pantry.necessary_ingredients?(r1)
+    refute pantry.necessary_ingredients?(r2)
+  end
+
+  def tet_enough_stock_check_returns_true_when_there_is_enough_of_all_ingredients
+    pantry = Pantry.new
+    pantry.restock("Cheese", 30)
+    pantry.restock("Flour", 20)
+    pantry.restock("Brine", 40)
+    pantry.restock("Raw nuts", 20)
+    pantry.restock("Salt", 20)
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 20)
+    r1.add_ingredient("Flour", 20)
+    r2 = Recipe.new("Brine Shot")
+    r2.add_ingredient("Brine", 10)
+
+    assert pantry.enough_stock?(r1)
+    assert pantry.enough_stock?(r2)
+  end
+
+  def test_enough_stock_returns_false_if_not_enough_of_an_ingredient
+    pantry = Pantry.new
+    pantry.restock("Cheese", 30)
+    pantry.restock("Flour", 20)
+    pantry.restock("Brine", 40)
+    pantry.restock("Raw nuts", 20)
+    pantry.restock("Salt", 20)
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 50)
+    r1.add_ingredient("Flour", 10)
+    r2 = Recipe.new("Brine Shot")
+    r2.add_ingredient("Brine", 99)
+
+    refute pantry.enough_stock?(r1)
+    refute pantry.enough_stock?(r2)
   end
 
   def test_pantry_can_check_what_can_be_made
-    skip
     r1 = Recipe.new("Cheese Pizza")
     r1.add_ingredient("Cheese", 20)
     r1.add_ingredient("Flour", 20)

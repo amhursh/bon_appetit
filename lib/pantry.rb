@@ -50,10 +50,22 @@ class Pantry
     cookbook << recipe
   end
 
-  def does_stock_include_necessary_ingredients?(recipe)
+  def necessary_ingredients?(recipe)
     recipe.ingredients.keys.all? do |ingredient|
       stock.keys.include?(ingredient)
     end
+  end
+
+  def enough_stock?(recipe)
+    recipe.ingredients.all? do |ingredient, amount|
+      stock[ingredient] >= amount
+    end
+  end
+
+  def what_can_i_make
+    cookbook.select do |recipe|
+      necessary_ingredients?(recipe) && enough_stock?(recipe)
+    end.map {|recipe| recipe.name}
   end
 
 end
