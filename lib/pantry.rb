@@ -68,4 +68,20 @@ class Pantry
     end.map {|recipe| recipe.name}
   end
 
+  def available_recipes
+    cookbook.select do |recipe|
+      necessary_ingredients?(recipe) && enough_stock?(recipe)
+    end
+  end
+
+  def how_many_can_i_make
+    output = {}
+    available_recipes.each do |recipe|
+      recipe.ingredients.each do |ingredient, amount|
+        output[recipe.name] = stock[ingredient] / amount
+      end
+    end
+    output
+  end
+
 end
