@@ -20,8 +20,8 @@ class Pantry
   end
 
   def determine_amount(num)
-    return num = (num / 100.0) if num > 100
-    return num = (num * 1000.0) if num < 1
+    return num = (num / 100) if num > 100
+    return num = (num * 1000).to_i if num < 1
     return num
   end
 
@@ -31,8 +31,15 @@ class Pantry
     return "Universal-Units"
   end
 
-  # def convert_units(recipe)
-  #   converted = recipe.map do
-  # end
+  def convert_units(recipe)
+    converted = {}
+    recipe.ingredients.map do |ingred, quantity|
+      converted[ingred] = {
+        :quantity => determine_amount(quantity),
+        :units => determine_units(quantity)
+      }
+    end
+    converted
+  end
 
 end

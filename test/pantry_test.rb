@@ -43,18 +43,18 @@ class PantryTest < Minitest::Test
 
   def test_number_conversion
     pantry = Pantry.new
-    amount = 120
+    amount = 300
     amount_two = 0.234
     amount_three = 49
 
-    assert_equal 1.2, pantry.determine_amount(amount)
+    assert_equal 3, pantry.determine_amount(amount)
     assert_equal 234, pantry.determine_amount(amount_two)
     assert_equal 49, pantry.determine_amount(amount_three)
   end
 
   def test_unit_name_conversion
     pantry = Pantry.new
-    amount = 120
+    amount = 300
     amount_two = 0.234
     amount_three = 49
 
@@ -64,18 +64,18 @@ class PantryTest < Minitest::Test
   end
 
   def test_pantry_can_convert_units
-    skip
     r = Recipe.new("Spicy Cheese Pizza")
     r.add_ingredient("Cayenne Pepper", 0.025)
     r.add_ingredient("Cheese", 75)
     r.add_ingredient("Flour", 500)
     pantry = Pantry.new
     converted = pantry.convert_units(r)
+    expected = {"Cayenne Pepper"=>{:quantity=>25, :units=>"Milli-Units"},
+                "Cheese"=>{:quantity=>75, :units=>"Universal-Units"},
+                "Flour"=>{:quantity=>5, :units=>"Centi-Units"}}
 
     assert_instance_of Hash, converted
-    assert_equal ({"Cayenne Pepper" => {quantity: 25, units: "Milli-Units"},
-                  "Cheese" => {quantity: 75, units: "Universal Units"},
-                  "Flour" => {quantity: 5, units: "Centi-Units"}}), converted
+    assert_equal expected, converted
   end
 
 end
