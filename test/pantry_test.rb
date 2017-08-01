@@ -78,4 +78,34 @@ class PantryTest < Minitest::Test
     assert_equal expected, converted
   end
 
+  def test_pantry_can_add_recipes_to_cookbook
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 20)
+    r1.add_ingredient("Flour", 20)
+    pantry = Pantry.new
+    pantry.add_to_cookbook(r1)
+
+    assert_instance_of Recipe, pantry.cookbook[0]
+    assert_equal 1, pantry.cookbook.count
+  end
+
+  def test_pantry_can_add_more_recipes
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 20)
+    r1.add_ingredient("Flour", 20)
+    r2 = Recipe.new("Brine Shot")
+    r2.add_ingredient("Brine", 10)
+    r3 = Recipe.new("Peanuts")
+    r3.add_ingredient("Raw nuts", 10)
+    r3.add_ingredient("Salt", 10)
+    pantry = Pantry.new
+    pantry.add_to_cookbook(r1)
+    pantry.add_to_cookbook(r2)
+    pantry.add_to_cookbook(r3)
+
+    assert_instance_of Array, pantry.cookbook
+    assert_instance_of Recipe, pantry.cookbook[2]
+    assert_equal 3, pantry.cookbook.count
+  end
+
 end

@@ -1,9 +1,11 @@
 class Pantry
 
-  attr_reader :stock
+  attr_reader :stock,
+              :cookbook
 
   def initialize
     @stock = {}
+    @cookbook = []
   end
 
   def stock_check(food)
@@ -40,6 +42,10 @@ class Pantry
       }
     end
     converted
+  end
+
+  def add_to_cookbook(recipe)
+    cookbook << recipe
   end
 
 end
