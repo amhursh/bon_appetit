@@ -1,3 +1,5 @@
+require 'pry'
+
 class Pantry
 
   attr_reader :stock,
@@ -46,6 +48,12 @@ class Pantry
 
   def add_to_cookbook(recipe)
     cookbook << recipe
+  end
+
+  def does_stock_include_necessary_ingredients?(recipe)
+    recipe.ingredients.keys.all? do |ingredient|
+      stock.keys.include?(ingredient)
+    end
   end
 
 end
