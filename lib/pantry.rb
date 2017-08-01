@@ -6,4 +6,9 @@ class Pantry
     @stock = {}
   end
 
+  def stock_check(food)
+    return 0 if stock[food].nil?
+    stock[food]
+  end
+
 end
