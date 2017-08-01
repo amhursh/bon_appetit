@@ -41,7 +41,7 @@ class PantryTest < Minitest::Test
     assert_equal 15, pantry.stock_check("Cheese")
   end
 
-  def test_unit_conversion
+  def test_number_conversion
     pantry = Pantry.new
     amount = 120
     amount_two = 0.234
@@ -50,6 +50,17 @@ class PantryTest < Minitest::Test
     assert_equal 1.2, pantry.determine_amount(amount)
     assert_equal 234, pantry.determine_amount(amount_two)
     assert_equal 49, pantry.determine_amount(amount_three)
+  end
+
+  def test_unit_name_conversion
+    pantry = Pantry.new
+    amount = 120
+    amount_two = 0.234
+    amount_three = 49
+
+    assert_equal "Centi-Units", pantry.determine_units(amount)
+    assert_equal "Milli-Units", pantry.determine_units(amount_two)
+    assert_equal "Universal-Units", pantry.determine_units(amount_three)
   end
 
   def test_pantry_can_convert_units
