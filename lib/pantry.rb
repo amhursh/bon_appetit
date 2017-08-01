@@ -11,4 +11,12 @@ class Pantry
     stock[food]
   end
 
+  def restock(food, quantity)
+     if stock[food].nil?
+       stock[food] = quantity
+    else
+      stock[food] = stock[food] + quantity
+    end
+  end
+
 end
