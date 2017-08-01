@@ -10,4 +10,10 @@ class PantryTest < Minitest::Test
     assert_instance_of Pantry, pantry
   end
 
+  def test_pantry_has_empty_stock_by_default
+    pantry = Pantry.new
+
+    assert_equal ({}), pantry.stock
+  end
+
 end
